@@ -1,5 +1,4 @@
 # TaskManager
-java task manager
 
 Create a task manager.
 
