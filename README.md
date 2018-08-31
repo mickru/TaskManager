@@ -1,5 +1,4 @@
-# TaskManager
-
+# TasksList
 Create a task manager.
 
 Functionality:
@@ -16,4 +15,7 @@ Interaction:
 1. interface Commandline/GUI
 2. Run from cmd (not from IDE)
 3. Not lose existing results
- 
+4. 
+![Scheme](Scheme.JPG)
+
+
