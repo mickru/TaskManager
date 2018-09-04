@@ -16,7 +16,7 @@ public class Main {
 
                 case "start":
                     TaskDatabase database = new TaskDatabase();
-                    database.connect();
+                    database.createNewTable();
                     System.out.println("Database started!");
                     break;
 
