@@ -58,4 +58,22 @@ public class TaskDatabase {
         }
     }
 
+    public void selectAll(){
+        System.out.println("ID"+"\t"+"Start date"+"\t"+"What to do"+"\t"+"Status");
+        String sql = "SELECT id, date, content, status FROM TaskList";
+
+        try (Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            while (rs.next()) {
+                System.out.println(rs.getInt("id") +  "\t" +
+                        rs.getString("date") + "\t" +
+                        rs.getString("content") + "\t" +
+                        rs.getString("status"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
