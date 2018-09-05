@@ -1,5 +1,14 @@
 import java.util.Objects;
 
+/**
+ * <h1>Task class</h1>
+ * Task class provides all necessary functionality
+ * for dealing with Task class objects.
+ *
+ * @author  Michal Krupka, Karolina Szatanik
+ * @version 1.0
+ */
+
 
 public class Task {
 
