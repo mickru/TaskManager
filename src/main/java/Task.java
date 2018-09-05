@@ -1,22 +1,15 @@
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Objects;
-
-
 public class Task {
 
-    private static int subsID = 0;
     private int taskID;
     private String taskStartDate;
     private String taskContent;
     private String taskStatus;
 
-    {
-        subsID++;
-    }
-
     public int getTaskID() {
         return taskID;
+    }
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
     }
     public String getTaskStartDate() {
         return taskStartDate;
@@ -41,9 +34,9 @@ public class Task {
             this.taskStatus = "Created";
     }
 
-    public Task(String taskStartDate, String taskContent) {
-        this.taskID = subsID;
-        this.setTaskStartDate(taskStartDate);  //format dd-mm-yyyy?
+    public Task(int checkedId, String taskStartDate, String taskContent) {
+        this.setTaskID(checkedId);
+        this.setTaskStartDate(taskStartDate);  //format yyyy-mm-dd?
         this.setTaskContent(taskContent);
         this.setTaskStatus("Created");
     }

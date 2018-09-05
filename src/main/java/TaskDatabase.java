@@ -104,4 +104,20 @@ public class TaskDatabase {
 
     }
 
+    public int checkLastId(){
+        String sql = "SELECT id FROM TaskList";
+        int counter = 1;
+        try (Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            while (rs.next()) {
+                counter++;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    return counter;
+    }
+
+
 }
