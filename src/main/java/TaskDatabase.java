@@ -5,6 +5,11 @@ public class TaskDatabase {
     private static String url = "jdbc:sqlite:testdb.db";
     private static Connection conn;
 
+    private static int taskID;
+    private static String taskStartDate;
+    private static String taskContent;
+    private static String taskStatus;
+
     {
         conn = null;
         try {
@@ -25,6 +30,29 @@ public class TaskDatabase {
         try (
                 Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertTask(Task task) {
+        taskID = task.getTaskID();
+        taskStartDate = task.getTaskStartDate();
+        taskContent = task.getTaskContent();
+        taskStatus = task.getTaskStatus();
+        this.insert(taskID, taskStartDate, taskContent, taskStatus);
+    }
+
+    public void insert(int taskID, String taskStartDate, String taskContent, String taskStatus) {
+
+        String sql = "INSERT INTO TaskList (id, date, content, status) VALUES(?,?,?,?)";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, taskID);
+            pstmt.setString(2, taskStartDate);
+            pstmt.setString(3, taskContent);
+            pstmt.setString(4, taskStatus);
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
