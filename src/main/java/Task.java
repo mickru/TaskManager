@@ -1,5 +1,6 @@
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class Task {
@@ -47,7 +48,30 @@ public class Task {
         this.setTaskStatus("Created");
     }
 
+    public Task(int taskID, String taskStartDate, String taskContent, String taskStatus) {
+        this.taskID = taskID;
+        this.taskStartDate = taskStartDate;
+        this.taskContent = taskContent;
+        this.taskStatus = taskStatus;
+    }
     public String toString() {
         return (""+getTaskID()+'\t'+getTaskStartDate()+'\t'+getTaskStatus()+'\t'+getTaskContent());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task)) return false;
+        Task task = (Task) o;
+        return taskID == task.taskID &&
+                Objects.equals(taskStartDate, task.taskStartDate) &&
+                Objects.equals(taskContent, task.taskContent) &&
+                Objects.equals(taskStatus, task.taskStatus);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(taskID, taskStartDate, taskContent, taskStatus);
     }
 }

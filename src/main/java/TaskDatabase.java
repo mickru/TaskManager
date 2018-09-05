@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 public class TaskDatabase {
 
@@ -19,6 +20,14 @@ public class TaskDatabase {
             System.out.println(e.getMessage());
         }
     }
+    private static void executeSql(String sql) {
+        try (
+                Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public static void createNewTable() {
         String sql = "CREATE TABLE IF NOT EXISTS TaskList (\n"
@@ -27,13 +36,14 @@ public class TaskDatabase {
                 + "	content text NOT NULL, \n"
                 + "	status text NOT NULL\n"
                 + ");";
-        try (
-                Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        executeSql(sql);
     }
+
+    public static void dropTable() {
+        String sql = "Drop table TaskList";
+        executeSql(sql);
+    }
+
 
     public void insertTask(Task task) {
         taskID = task.getTaskID();
@@ -74,6 +84,24 @@ public class TaskDatabase {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public ArrayList<Task> readAllFromDb(){
+        ArrayList<Task> result = new ArrayList<Task>();
+        String sql = "SELECT id, date, content, status FROM TaskList";
+        try (Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Task task = new Task(rs.getInt("id") , rs.getString("date") , rs.getString("content"), rs.getString("status"));
+                result.add(task);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return result;
+
     }
 
 }
