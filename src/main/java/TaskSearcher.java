@@ -11,4 +11,11 @@ public class TaskSearcher {
             }
         }
     }
+
+    public void searchTaskByDate(String date) {
+        for(Task task : listOfTasks){
+            if(task.getTaskStartDate().equals(date))
+                foundTasks.add(task);
+        }
+    }
 }
