@@ -47,9 +47,9 @@ public class TaskDatabase {
         }
     }
 
-    public static void createNewTable() {
+    public static void createNewTableIfNoExists() {
         /**
-         * <h2>createNewTable()</h2>
+         * <h2>createNewTableIfNoExists()</h2>
          * This method creates a new table with id, date, content, status
          * columns, unless such table already exists.
          * @author  Michal Krupka
@@ -145,9 +145,9 @@ public class TaskDatabase {
 
     }
 
-    public int checkLastId(){
+    public int checkNextId(){
         /**
-         * <h2>checkLastId()</h2>
+         * <h2>checkNextId()</h2>
          * This method checks the last id stored in the .db file - the next
          * int number is meant to be used for creation of a new object Task.
          * @author  Michal Krupka
