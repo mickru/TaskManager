@@ -1,5 +1,7 @@
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+
 
 /**
  * <h1>TaskDatabase class</h1>
@@ -14,11 +16,6 @@ public class TaskDatabase {
 
     private static String url = "jdbc:sqlite:testdb.db";
     private static Connection conn;
-
-    private static int taskID;
-    private static String taskStartDate;
-    private static String taskContent;
-    private static String taskStatus;
 
 
     {
@@ -77,11 +74,7 @@ public class TaskDatabase {
          * @author  Michal Krupka
          */
 
-        taskID = task.getTaskID();
-        taskStartDate = task.getTaskStartDate();
-        taskContent = task.getTaskContent();
-        taskStatus = task.getTaskStatus();
-        this.insert(taskID, taskStartDate, taskContent, taskStatus);
+        this.insert(task.getTaskID(),task.getTaskStartDate().toString(),task.getTaskContent(), task.getTaskStatus().toString());
     }
 
     public void insert(int taskID, String taskStartDate, String taskContent, String taskStatus) {
@@ -134,7 +127,8 @@ public class TaskDatabase {
              ResultSet rs    = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Task task = new Task(rs.getInt("id") , rs.getString("date") , rs.getString("content"), rs.getString("status"));
+                Task task = new Task(rs.getInt("id") , LocalDate.parse(rs.getString("date")) ,
+                        rs.getString("content"), Status.valueOf(rs.getString("status")));
                 result.add(task);
             }
         } catch (SQLException e) {

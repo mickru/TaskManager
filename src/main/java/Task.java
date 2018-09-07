@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -13,9 +14,31 @@ import java.util.Objects;
 public class Task {
 
     private int taskID;
-    private String taskStartDate;
+    private LocalDate taskStartDate;
     private String taskContent;
-    private String taskStatus;
+    private Status taskStatus;
+
+
+    public Task(int checkedId, LocalDate taskStartDate, String taskContent) {
+        this.setTaskID(checkedId);
+        this.setTaskStartDate(taskStartDate);  //format yyyy-mm-dd?
+        this.setTaskContent(taskContent);
+        this.setTaskStatus(Status.CREATED);
+    }
+
+    public Task(int checkedId, String taskContent) {
+        this.setTaskID(checkedId);
+        this.setTaskStartDate(LocalDate.now());
+        this.setTaskContent(taskContent);
+        this.setTaskStatus(Status.CREATED);
+    }
+
+    public Task(int taskID, LocalDate taskStartDate, String taskContent, Status taskStatus) {
+        this.taskID = taskID;
+        this.taskStartDate = taskStartDate;
+        this.taskContent = taskContent;
+        this.taskStatus = taskStatus;
+    }
 
     public int getTaskID() {
         return taskID;
@@ -23,10 +46,10 @@ public class Task {
     public void setTaskID(int taskID) {
         this.taskID = taskID;
     }
-    public String getTaskStartDate() {
+    public LocalDate getTaskStartDate() {
         return taskStartDate;
     }
-    public void setTaskStartDate(String taskStartDate) {
+    public void setTaskStartDate(LocalDate taskStartDate) {
         this.taskStartDate = taskStartDate;
     }
     public String getTaskContent() {
@@ -35,32 +58,21 @@ public class Task {
     public void setTaskContent(String taskContent) {
         this.taskContent = taskContent;
     }
-    public String getTaskStatus() {
+    public Status getTaskStatus() {
         return taskStatus;
     }
-    public void setTaskStatus(String taskStatus) {
-        String tempStatus = taskStatus.toLowerCase();
-        if ((tempStatus.equals("in progress")) || (tempStatus.equals("completed")))
-            this.taskStatus = taskStatus;
-        else
-            this.taskStatus = "Created";
-    }
-
-    public Task(int checkedId, String taskStartDate, String taskContent) {
-        this.setTaskID(checkedId);
-        this.setTaskStartDate(taskStartDate);  //format yyyy-mm-dd?
-        this.setTaskContent(taskContent);
-        this.setTaskStatus("Created");
-    }
-
-    public Task(int taskID, String taskStartDate, String taskContent, String taskStatus) {
-        this.taskID = taskID;
-        this.taskStartDate = taskStartDate;
-        this.taskContent = taskContent;
+    public void setTaskStatus(Status taskStatus) {
         this.taskStatus = taskStatus;
     }
+
+    @Override
     public String toString() {
-        return (""+getTaskID()+'\t'+getTaskStartDate()+'\t'+getTaskStatus()+'\t'+getTaskContent());
+        return "Task{" +
+                "taskID=" + taskID +
+                ", taskStartDate='" + taskStartDate + '\'' +
+                ", taskContent='" + taskContent + '\'' +
+                ", taskStatus=" + taskStatus +
+                '}';
     }
 
     @Override
