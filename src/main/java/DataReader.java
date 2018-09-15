@@ -11,61 +11,19 @@ public class DataReader {
         do {
             stringDate = scanner.nextLine();
         } while (!(isDateFormat(stringDate)));
-        return dateParse(stringDate);
+        return LocalDate.parse(stringDate);
     }
 
     private boolean isDateFormat(String inputString) {
-        return (isCorrectFormat(inputString) && isNumbers(inputString) && isExistDay(inputString));
-    }
-
-    //this method return true if string is in format xxxx-xx-xx
-    private boolean isCorrectFormat(String inputString){
-        errorMessage = "Date format error. Write the date in format yyyy-MM-dd. Try again.";
-        String[] splitString = inputString.split("-");
-        if(splitString.length == 3 ) {
-            if(splitString[0].length() == 4 && splitString[1].length() == 2 && splitString[2].length() == 2) {
-                return true;
-            }
-        }
-        System.out.println(errorMessage);
-        return false;
-    }
-
-    private boolean isNumbers (String inputString){
-        errorMessage = "The input are not numbers. Try again.";
-        String[] splitInputString = inputString.split("-");
-            for(String string : splitInputString){
-                try{
-                    Integer.parseInt(string);
-                } catch (NumberFormatException e) {
-                    System.out.println(errorMessage);
-                    return false;
-                }
-            }
-        return true;
-    }
-    private boolean isExistDay(String date){
-        errorMessage = "There is no such day " + date+". Try again.";
-        String [] arrayOfDate = date.split("-");
         try {
-            LocalDate.of(Integer.parseInt(arrayOfDate[0]), Integer.parseInt(arrayOfDate[1]), Integer.parseInt(arrayOfDate[2]));
-        } catch (DateTimeException e) {
+            LocalDate.parse(inputString);
+        }
+        catch (DateTimeException ex ) {
+            errorMessage = "You entered incorrect date format or day doesn't exist. Try again. ";
             System.out.println(errorMessage);
             return false;
         }
         return true;
-    }
-
-    private LocalDate dateParse(String date){
-        int year = 0;
-        int month = 0;
-        int day = 0;
-
-        String[] splitStringDate = date.split("-");
-            year = Integer.parseInt(splitStringDate[0]);
-            month = Integer.parseInt(splitStringDate[1]);
-            day = Integer.parseInt(splitStringDate[2]);
-        return LocalDate.of(year, month, day);
     }
 
     public int readTaskID() {
