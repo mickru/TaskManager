@@ -96,17 +96,16 @@ public class TaskDatabase {
          * <h2>selectAll()</h2>
          * This method prints out on the screen all tasks saved in the .db file in form of a list.
          */
-        System.out.println("ID"+"\t"+"Start date"+"\t"+"What to do"+"\t"+"Status");
         String sql = "SELECT id, date, content, status FROM TaskList";
 
         try (Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
 
+            PrintToScreen print = new PrintToScreen();
+            print.printHeadline();
+
             while (rs.next()) {
-                System.out.println(rs.getInt("id") +  "\t" +
-                        rs.getString("date") + "\t" +
-                        rs.getString("content") + "\t" +
-                        rs.getString("status"));
+                print.printRow(rs.getInt("id"),rs.getString("date"), rs.getString("content"), Status.valueOf(rs.getString("status")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -205,20 +204,18 @@ public class TaskDatabase {
          * <h2>searchStatus(String stat)</h2>
          * This method is searching for task with the given status in the task database file, and prints them out.
          */
-        String sql = "SELECT id, date, content, status "
-                + "FROM TaskList WHERE status = ?";
+        String sql = "SELECT id, date, content, status FROM TaskList ";
 
-        try (PreparedStatement pstmt  = conn.prepareStatement(sql)){
-            String statMod = Character.toUpperCase(stat.charAt(0)) + stat.substring(1);
-            pstmt.setString(1,statMod);
-            ResultSet rs  = pstmt.executeQuery();
+        PrintToScreen print = new PrintToScreen();
+        print.printHeadline();
+
+        try (Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
             int count = 0;
+            String statMod = stat.toUpperCase();
             while (rs.next()) {
                 if ((statMod.equals(rs.getString("status")))) {
-                    System.out.println(rs.getInt("id") +  "\t" +
-                            rs.getString("date") + "\t" +
-                            rs.getString("content") + "\t" +
-                            rs.getString("status"));
+                    print.printRow(rs.getInt("id"),rs.getString("date"), rs.getString("content"), Status.valueOf(rs.getString("status")));
                     count++;
                 }
             }
@@ -235,15 +232,15 @@ public class TaskDatabase {
          */
         String sql = "SELECT id, date, content, status FROM TaskList ";
 
+        PrintToScreen print = new PrintToScreen();
+        print.printHeadline();
+
         try (Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
             int count = 0;
             while (rs.next()) {
                 if ((date.equals(rs.getString("date")))) {
-                    System.out.println(rs.getInt("id") +  "\t" +
-                            rs.getString("date") + "\t" +
-                            rs.getString("content") + "\t" +
-                            rs.getString("status"));
+                    print.printRow(rs.getInt("id"),rs.getString("date"), rs.getString("content"), Status.valueOf(rs.getString("status")));
                     count++;
                 }
             }
@@ -261,6 +258,9 @@ public class TaskDatabase {
          */
         String sql = "SELECT id, date, content, status FROM TaskList";
 
+        PrintToScreen print = new PrintToScreen();
+        print.printHeadline();
+
         try (Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
             String dateFromMod = dateFrom.replace("-","");
@@ -277,10 +277,7 @@ public class TaskDatabase {
                 databaseDateMod = databaseDateString.replace("-","");
                 databaseDateInt = Integer.parseInt(databaseDateMod);
                 if ((databaseDateInt >= dateFromModInt) && (databaseDateInt <= dateToModInt)) {
-                    System.out.println(rs.getInt("id") + "\t" +
-                            rs.getString("date") + "\t" +
-                            rs.getString("content") + "\t" +
-                            rs.getString("status"));
+                    print.printRow(rs.getInt("id"),rs.getString("date"), rs.getString("content"), Status.valueOf(rs.getString("status")));
                 count++;
                 }
             }
