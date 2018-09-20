@@ -18,11 +18,17 @@ public class PrintToScreen {
 
     final int ID_LENGTH = 3;
     final int DATE_LENGTH = 10;
-    final int CONTENT_LENGTH = 18;
+    final int CONTENT_LENGTH = 20;
     final int STATUS_LENGTH = 11;
 
 
     public StringBuilder generateBlank() {
+        /**
+         * <h2>generateBlank()</h2>
+         * This method returns an empty row to be used in a table of tasks that is to be generated further.
+         * Blank row  has 4 columns and their width depends on the constants in the PrintToScreen class.
+         */
+
         StringBuilder filledBlank = new StringBuilder();
         for (int i = 0; i < ID_LENGTH; i++)
             filledBlank.append(" ");
@@ -40,6 +46,12 @@ public class PrintToScreen {
     }
 
     public StringBuilder generateHeadline(StringBuilder filledBlank) {
+        /**
+         * <h2>generateHeadline(StringBuilder filledBlank)</h2>
+         * Using a blank row generated in generateBlank() method, this method returns a filled in row
+         * to be used as a headline in a table of tasks that is to be generated further.
+         */
+
         filledBlank.replace(Math.abs(ID_LENGTH/2)-1,(Math.abs(ID_LENGTH/2)-1)+2,"ID");
         filledBlank.replace(ID_LENGTH+(Math.abs(DATE_LENGTH/2))-1,(ID_LENGTH+(Math.abs(DATE_LENGTH/2))-1)+4,"Date");
         filledBlank.replace(ID_LENGTH+DATE_LENGTH+1+Math.abs(CONTENT_LENGTH/2)-1,(ID_LENGTH+DATE_LENGTH+1
@@ -50,6 +62,13 @@ public class PrintToScreen {
     }
 
     public void printHeadline() {
+        /**
+         * <h2>printHeadline()</h2>
+         * This method prints out on the screen a headline returned by
+         * generateHeadline(StringBuilder filledBlank) method. I will be a headline
+         * to be used in a table of tasks that is to be generated further.
+         */
+
         StringBuilder filledBlank = generateBlank();
         StringBuilder headline = generateHeadline(filledBlank);
         System.out.println(headline);
@@ -59,7 +78,13 @@ public class PrintToScreen {
     }
 
     public void printRow(int id, String date, String content, Status status) {
-            StringBuilder filledBlank = generateBlank();
+        /**
+         * <h2>printRow(int id, String date, String content, Status status)</h2>
+         * This method prints out on the screen a row to be used in a table of tasks.
+         * A row contain one task.
+         */
+
+        StringBuilder filledBlank = generateBlank();
             String idString = Integer.toString(id);
             idLength = idString.length();
             filledBlank.replace(0,idLength,idString);
@@ -76,6 +101,12 @@ public class PrintToScreen {
         }
 
     public void printTable(ArrayList<Task> arrayList) {
+        /**
+         * <h2>printTable(ArrayList<Task> arrayList)</h2>
+         * This method prints out on the screen a table of tasks.
+         * A table contains of a headline and row(s) with task(s).
+         */
+
         printHeadline();
         for (Task task : arrayList){
             this.printRow(task.getTaskID(), task.getTaskStartDate().toString(), task.getTaskContent(), task.getTaskStatus());
@@ -84,6 +115,13 @@ public class PrintToScreen {
     }
 
     public void printContinuedContent(int contentLength, String content) {
+        /**
+         * <h2>printContinuedContent(int contentLength, String content)</h2>
+         * This method prints out on the screen a row with continued content,
+         * if the content length is longer than the constant defined in
+         * PrintToScreen class.
+         * Other columns in the row are blank.
+         */
         int count;
         if ((contentLength % CONTENT_LENGTH) == 0)
             count = contentLength / CONTENT_LENGTH;
