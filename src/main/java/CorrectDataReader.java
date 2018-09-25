@@ -30,6 +30,9 @@ public class CorrectDataReader {
                 System.out.println("Inputted date is " + LocalDate.now());
                 return LocalDate.now();
             }
+            if ( stringDate.equals("exit") ) {
+                return null;
+            }
         } while (!(isDateFormat(stringDate)));
         return LocalDate.parse(stringDate);
     }
@@ -75,6 +78,9 @@ public class CorrectDataReader {
         do {
             Scanner scanner = new Scanner(System.in);
             taskContent = scanner.nextLine();
+            if ( taskContent.equals("exit") ) {
+                return null;
+            }
         } while (isEmptyTaskContent(taskContent));
         return taskContent;
     }

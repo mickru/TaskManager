@@ -3,7 +3,14 @@ import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+/**
+ *
+ */
 public class Main {
+    /**
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
 
         //Example of command line working with program. DL, 04.09.2018
@@ -21,33 +28,74 @@ public class Main {
 
             System.out.println("Enter command: ");
 
-            switch(command.nextLine()){
 
+            switch(command.nextLine().toLowerCase()){
+
+                case "9":
                 case "exit":
                     System.out.println("Application Closed");
                     running = false;
                     break;
-
-                case "addTask":
+                case "1":
+                case "addtask":
                     System.out.println("Add Task");
                     System.out.println("Enter start date of the task (RRRR-MM-DD)");
                     LocalDate taskDate = reader.readCorrectDate();
                     System.out.println("Enter your task content");
                     String taskContent = reader.readCorrectTaskContent();
+                    if (taskContent == null || taskDate == null ) {
+                         System.out.println("Adding task cancelled!");
+                        break;
+                    }
                     int taskID = database.checkNextId();
                     Task task1 = new Task (taskID, taskDate, taskContent);
                     database.insertTask(task1);
                     System.out.println("Your task has been created");
+                    break;
+                case "2":
+                case "selectall":
+                    System.out.println("All your tasks are:");
+                    database.selectAll();
+                    break;
+                case "3":
+                case "updatedate":
+                    System.out.println("Write ID to update:");
+                    int taskIDtoUpdate = reader.readCorreckID();
+                    System.out.println("Enter new date of the task (RRRR-MM-DD)");
+                    LocalDate taskDateToUpdate = reader.readCorrectDate();
+                    int updatedRowsCount = database.updateDate( taskIDtoUpdate, taskDateToUpdate.toString() );
+                    if ( updatedRowsCount > 0 ) {
+                    System.out.println("ID: " + taskIDtoUpdate + " date updated to: " + taskDateToUpdate.toString());
+                }
+                else {
+                        System.out.println("0 rows updated!");
+                }
+                    break;
 
+                case "77":
+                case "createtable":
+                    database.createNewTableIfNoExists();
+                    System.out.println("TABLE created!");
+                    break;
+                case "88":
+                case "droptable":
+                    database.dropTable();
+                    System.out.println("TABLE removed!");
+                    break;
+
+                case "h":
                 case "help":
-                    System.out.println("\"addTask\" adds new task.");
-                    System.out.println("\"exit\" - closes program");
+                    System.out.println("\"1 or addTask\" adds new task.");
+                    System.out.println("\"2 or selectall\" displays all tasks.");
+                    System.out.println("\"3 or updatedate\" is for updating selected by ID task Date.");
+                    System.out.println("\"9 or exit\" - closes program");
                     break;
 
                 default:
                     System.out.println("Command not recognized. Type \"help\" to get info on available commands");
                     break;
             }
+            System.out.println("");
         }
         command.close();
     }

@@ -151,7 +151,7 @@ public class TaskDatabase {
         return counter;
     }
 
-    public void updateDate(int id, String date) {
+    public int updateDate(int id, String date) {
         /**
          * <h2>updateDate(int id, String date)</h2>
          * This method updates a date in the task record with indicated id.
@@ -161,9 +161,11 @@ public class TaskDatabase {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, date);
             pstmt.setInt(2, id);
-            pstmt.executeUpdate();
+            int updatedRowsCount =  pstmt.executeUpdate();
+            return updatedRowsCount;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return 0;
         }
     }
 
