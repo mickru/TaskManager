@@ -4,13 +4,15 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 /**
+ * <h1>Main class</h1>
+ * Main class for whole project
+ * contains functionality for User
  *
+ * @author  Dominik Lyczek
+ * @version 1.0
  */
+
 public class Main {
-    /**
-     * @param args
-     * @throws IOException
-     */
     public static void main(String[] args) throws IOException {
 
         //Example of command line working with program. DL, 04.09.2018
@@ -70,6 +72,7 @@ public class Main {
                     if ( updatedRowsCount > 0 ) {
                     System.out.println("ID: " + taskIDtoUpdate + " date updated to: " + taskDateToUpdate.toString());
                 }
+                break;
                 case "4":
                 case "updatecontent":
                     System.out.println("Write ID to update:");

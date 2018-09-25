@@ -112,6 +112,31 @@ public class TaskDatabase {
         }
     }
 
+    public String displayAllGUI(){
+        /**
+         * <h2>displayAllGUI()</h2>
+         * This method returns as a String all tasks saved in the .db file in form of a list.
+         */
+        String sql = "SELECT id, date, content, status FROM TaskList";
+
+        String allRows = "";
+        PrintToScreen print = new PrintToScreen();
+
+        try (Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            allRows = print.getHeadline();
+
+            while (rs.next()) {
+                allRows = allRows + "\n" + print.getAllRowsContent(rs.getInt("id"),rs.getString("date"), rs.getString("content"), Status.valueOf(rs.getString("status")));
+            }
+        } catch (SQLException e) {
+            return e.getMessage().toString();
+        }
+
+        return allRows;
+    }
+
     public ArrayList<Task> readAllFromDb(){
         ArrayList<Task> result = new ArrayList<Task>();
         String sql = "SELECT id, date, content, status FROM TaskList";
@@ -228,6 +253,35 @@ public class TaskDatabase {
             System.out.println("Number of tasks with status '"+statMod+"': "+count+"\n");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public String displayByDate(String date){
+        /**
+         * <h2>displayDate(String date)</h2>
+         * This method is searching for task with the given date in the task database file, and returns them as a String.
+         */
+        String sql = "SELECT id, date, content, status FROM TaskList ";
+
+        String allRows = "";
+        PrintToScreen print = new PrintToScreen();
+
+        try (Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+
+            allRows = print.getHeadline();
+
+            while (rs.next()) {
+                if ((date.equals(rs.getString("date")))) {
+                    allRows = allRows + "\n" + print.getAllRowsContent(rs.getInt("id"),rs.getString("date"), rs.getString("content"), Status.valueOf(rs.getString("status")));
+
+                }
+            }
+
+            return allRows;
+        } catch (SQLException e) {
+            return e.getMessage().toString();
         }
     }
 

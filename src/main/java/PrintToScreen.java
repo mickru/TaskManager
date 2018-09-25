@@ -77,6 +77,57 @@ public class PrintToScreen {
         System.out.println();
     }
 
+    public String getHeadline() {
+        /**
+         * <h2>getHeadline()</h2>
+         * This method returns  a headline returned by
+         * generateHeadline(StringBuilder filledBlank) method. I will be a headline
+         * to be used in a table of tasks that is to be generated further.
+         */
+
+        String headlineWithDecoreation;
+        StringBuilder filledBlank = generateBlank();
+        StringBuilder headline = generateHeadline(filledBlank);
+
+        headlineWithDecoreation = headline.toString();
+
+        headlineWithDecoreation = headlineWithDecoreation + "\n";
+
+        for (int i = 0; i < (ID_LENGTH+1+DATE_LENGTH+1+CONTENT_LENGTH+1+STATUS_LENGTH+1); i++)
+            headlineWithDecoreation = headlineWithDecoreation + ('-');
+
+        return headlineWithDecoreation;
+//
+    }
+
+
+    public String getAllRowsContent(int id, String date, String content, Status status) {
+        /**
+         * <h2>getAllRowsContent(int id, String date, String content, Status status)</h2>
+         * This method returns a row to be used in a table of tasks.
+         * A row contain one task.
+         */
+
+        StringBuilder filledBlank = generateBlank();
+        String idString = Integer.toString(id);
+
+        idLength = idString.length();
+        filledBlank.replace(0,idLength,idString);
+        filledBlank.replace(ID_LENGTH+1,(ID_LENGTH+1)+10,date);
+        contentLength = content.length();
+        filledBlank.replace(ID_LENGTH+1+DATE_LENGTH+1,(ID_LENGTH+1+DATE_LENGTH+1)+Math.min(contentLength,CONTENT_LENGTH),
+                content.substring(0,Math.min(contentLength,CONTENT_LENGTH)));
+        statusLength = status.toString().length();
+        filledBlank.replace(ID_LENGTH+1+DATE_LENGTH+1+CONTENT_LENGTH+1,(ID_LENGTH+1+DATE_LENGTH+1+CONTENT_LENGTH+1)
+                +Math.min(statusLength,STATUS_LENGTH),status.toString().substring(0,Math.min(statusLength,STATUS_LENGTH)));
+     //   System.out.print(filledBlank+"\n");
+      //  if ((contentLength > CONTENT_LENGTH))
+        //    printContinuedContent(contentLength, content);
+
+        return filledBlank.toString();
+    }
+
+
     public void printRow(int id, String date, String content, Status status) {
         /**
          * <h2>printRow(int id, String date, String content, Status status)</h2>
