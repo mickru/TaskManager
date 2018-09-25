@@ -23,6 +23,9 @@ public class Main {
         System.out.println("Database has been established");
 
         boolean running = true;
+        int taskIDtoUpdate;
+        String taskContent;
+        int updatedRowsCount;
 
         while(running){
 
@@ -31,7 +34,7 @@ public class Main {
 
             switch(command.nextLine().toLowerCase()){
 
-                case "9":
+                case "99":
                 case "exit":
                     System.out.println("Application Closed");
                     running = false;
@@ -42,7 +45,7 @@ public class Main {
                     System.out.println("Enter start date of the task (RRRR-MM-DD)");
                     LocalDate taskDate = reader.readCorrectDate();
                     System.out.println("Enter your task content");
-                    String taskContent = reader.readCorrectTaskContent();
+                    taskContent = reader.readCorrectTaskContent();
                     if (taskContent == null || taskDate == null ) {
                          System.out.println("Adding task cancelled!");
                         break;
@@ -60,24 +63,67 @@ public class Main {
                 case "3":
                 case "updatedate":
                     System.out.println("Write ID to update:");
-                    int taskIDtoUpdate = reader.readCorreckID();
+                    taskIDtoUpdate = reader.readCorreckID();
                     System.out.println("Enter new date of the task (RRRR-MM-DD)");
                     LocalDate taskDateToUpdate = reader.readCorrectDate();
-                    int updatedRowsCount = database.updateDate( taskIDtoUpdate, taskDateToUpdate.toString() );
+                    updatedRowsCount = database.updateDate( taskIDtoUpdate, taskDateToUpdate.toString() );
                     if ( updatedRowsCount > 0 ) {
                     System.out.println("ID: " + taskIDtoUpdate + " date updated to: " + taskDateToUpdate.toString());
                 }
+                case "4":
+                case "updatecontent":
+                    System.out.println("Write ID to update:");
+                    taskIDtoUpdate = reader.readCorreckID();
+                    System.out.println("Enter new 'TO DO' of the task");
+                    taskContent = reader.readCorrectTaskContent();
+                    updatedRowsCount = database.updateContent( taskIDtoUpdate, taskContent );
+                    if ( updatedRowsCount > 0 ) {
+                        System.out.println("ID: " + taskIDtoUpdate + " 'TO DO' updated to: " + taskContent);
+                    }
                 else {
                         System.out.println("0 rows updated!");
                 }
                     break;
-
-                case "77":
+                case "5":
+                case "updatestatus":
+                    System.out.println("Write ID to update:");
+                    taskIDtoUpdate = reader.readCorreckID();
+                    System.out.println("Enter new Status");
+                    Status newStatus= reader.readCorrectStatus();
+                    updatedRowsCount = database.updateStatus( taskIDtoUpdate, newStatus.toString() );
+                    if ( updatedRowsCount > 0 ) {
+                        System.out.println("ID: " + taskIDtoUpdate + " status updated to status: " + newStatus.toString() );
+                    }
+                    else {
+                        System.out.println("0 rows updated!");
+                    }
+                    break;
+                case "6":
+                case "searchstatus":
+                    System.out.println("Write Status to be searched:");
+                    Status searchedStatus= reader.readCorrectStatus();
+                    database.searchStatus ( searchedStatus.toString() );
+                    break;
+                case "7":
+                case "searchdate":
+                    System.out.println("Write Date to be searched:");
+                    LocalDate taskDateToSearch = reader.readCorrectDate();
+                    database.searchDate ( taskDateToSearch.toString() );
+                    break;
+                case "8":
+                case "searchdaterange":
+                    System.out.println("Write date from which to search:");
+                    LocalDate taskDateToSearchFrom = reader.readCorrectDate();
+                    System.out.println("Write date to which to search:");
+                    LocalDate taskDateToSearchTo = reader.readCorrectDate();
+                    database.searchDateRange ( taskDateToSearchFrom.toString(), taskDateToSearchTo.toString() );
+                    break;
+                case "create":
                 case "createtable":
                     database.createNewTableIfNoExists();
                     System.out.println("TABLE created!");
                     break;
-                case "88":
+                case "drop":
                 case "droptable":
                     database.dropTable();
                     System.out.println("TABLE removed!");
@@ -88,7 +134,12 @@ public class Main {
                     System.out.println("\"1 or addTask\" adds new task.");
                     System.out.println("\"2 or selectall\" displays all tasks.");
                     System.out.println("\"3 or updatedate\" is for updating selected by ID task Date.");
-                    System.out.println("\"9 or exit\" - closes program");
+                    System.out.println("\"4 or updatecontent\" is for updating selected by ID task 'TO DO'.");
+                    System.out.println("\"5 or updatestatus\" is for updating selected by ID task Status.");
+                    System.out.println("\"6 or searchstatus\" is for displaying all rows with given Status.");
+                    System.out.println("\"7 or searchdate\" is for displaying all rows with given Date.");
+                    System.out.println("\"8 or searchdaterange\" is for displaying all rows between two dates (including them).");
+                    System.out.println("\"99 or exit\" - closes program");
                     break;
 
                 default:

@@ -169,7 +169,7 @@ public class TaskDatabase {
         }
     }
 
-    public void updateContent(int id, String content) {
+    public int updateContent(int id, String content) {
         /**
          * <h2>updateContent(int id, String content)</h2>
          * This method updates a content in the task record with indicated id.
@@ -179,13 +179,15 @@ public class TaskDatabase {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, content);
             pstmt.setInt(2, id);
-            pstmt.executeUpdate();
+            int updatedRowsCount = pstmt.executeUpdate();
+            return updatedRowsCount;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return 0;
         }
     }
 
-    public void updateStatus(int id, String status) {
+    public int updateStatus(int id, String status) {
         /**
          * <h2>updateStatus(int id, String status)</h2>
          * This method updates a status in the task record with indicated id.
@@ -195,9 +197,11 @@ public class TaskDatabase {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, status);
             pstmt.setInt(2, id);
-            pstmt.executeUpdate();
+            int updatedRowsCount = pstmt.executeUpdate();
+            return updatedRowsCount;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return 0;
         }
     }
 
